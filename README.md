@@ -1,7 +1,7 @@
 # Vialarm
 
 "Vialarm" is "cron" like timer in Vim.
-Dumb English detail is [below](#Dumb_English).
+Dumb English detail is [below](#dumb-english).
 
 ## 日本語
 
