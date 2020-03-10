@@ -126,7 +126,9 @@ endfunction
 function! vialarm#main(args) abort
 	let args = split(a:args, '\s')
 
-	if args[0] =~? '^\d\+'
+	if len(args) == 0
+		call s:showAlarms()
+	elseif args[0] =~? '^\d\+'
 		try
 			if len(args) > 1
 				let time = args[0]
@@ -144,8 +146,6 @@ function! vialarm#main(args) abort
 		call s:timerStop()
 	elseif args[0] == 'timer'
 		call s:showTimerInfo()
-	else
-		call s:showAlarms()
 	endif
 endfunction
 
