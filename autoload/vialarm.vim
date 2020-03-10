@@ -1,9 +1,14 @@
 scriptencoding utf-8
 
 let s:cpo = &cpoptions
-
 set cpo&vim
 
+let s:errormsg = {
+	\ 'E01': '[vialarm]: Error: Time format must be ''HH:MM''.',
+	\ 'E02': '[vialarm]: Error: No such time. :(',
+	\ 'E03': '[vialarm]: Error: Command is empty.'
+	\ }
+ 
 let s:recentTime = localtime()
 let g:vialarm_isRunning = 0
 
@@ -63,11 +68,11 @@ function! s:addOneshot(time, command) abort
 		echo printf('[vialarm]: Added alarm in %s.', a:time)
 
 	catch /vialarm_E01/
-		echoerr '[vialarm]: Error: Time format must be ''HH:MM''.'
+		echoerr s:errormsg.E01
 	catch /vialarm_E02/
-		echoerr '[vialarm]: Error: No such time. :('
+		echoerr s:errormsg.E02
 	catch /vialarm_E03/
-		echoerr '[vialarm]: Error: Command is empty.'
+		echoerr s:errormsg.E03
 	endtry
 endfunction
 
@@ -118,25 +123,29 @@ function! s:showTimerInfo() abort
 	endif
 endfunction
 
-function! vialarm#alarm(args) abort
-	if a:args !=# ''
-		let time = matchstr(a:args, '^\S*')
-		let command = matchstr(a:args, '\s\zs.*$')
-		call s:addOneshot(time, command)
-	else
-		call s:showAlarms()
-	endif
-endfunction
+function! vialarm#main(args) abort
+	let args = split(a:args, '\s')
 
-function! vialarm#timer(args) abort
-	if a:args ==? 'start'
+	if args[0] =~? '^\d\+'
+		try
+			if len(args) > 1
+				let time = args[0]
+				let command = join(args[1:], ' ')
+				call s:addOneshot(time, command)
+			else
+				throw 'vialarm_E03'
+			endif
+		catch /vialarm_E03/
+			echoerr s:errormsg.E03
+		endtry
+	elseif args[0] ==? 'start'
 		call s:timerStart()
-	elseif a:args ==? 'stop'
+	elseif args[0] ==? 'stop'
 		call s:timerStop()
-	elseif a:args ==# ''
+	elseif args[0] == 'timer'
 		call s:showTimerInfo()
 	else
-		echo '[vialarm]: Usage `:Vialarm! [(start|stop)]`'
+		call s:showAlarms()
 	endif
 endfunction
 
