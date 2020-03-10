@@ -2,8 +2,7 @@ scriptencoding utf-8
 
 let s:cpo = &cpoptions
 
-command! -nargs=* -complete=command Vialarm call vialarm#alarm(<q-args>)
-command! -nargs=* -complete=command Vitimer call vialarm#timer(<q-args>)
+command! -nargs=* -complete=command Vialarm call vialarm#main(<q-args>)
 
 augroup vialarm_system
 	autocmd!

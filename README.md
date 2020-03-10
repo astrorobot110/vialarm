@@ -7,7 +7,7 @@ Dumb English detail is [below](#dumb-english).
 
 ### どう動くの？
 
-1. `:Vitimer start`とタイプして（もしくはvimrcに書いて）Vialarmを起動します。
+1. `:Vialarm start`とタイプして（もしくはvimrcに書いて）Vialarmを起動します。
 2. `autocmd hoge User Vialarm_08:15 edit ~/Documents/todo.md` の様にオートコマンドを追加します。
 3. 朝のコーヒーを淹れに行っている間にVialarmがtodo.mdを開かせます。
 
@@ -17,9 +17,9 @@ Dumb English detail is [below](#dumb-english).
 |:--------------------------|:------------------------------------------------------------------------------------------|
 |`:Vialarm`                 | Vialarmに関するオートコマンドを表示します。                                               |
 |`:Vialarm [HH:MM command]` | oneshotのオートコマンドを追加します。コマンドは"vialarm\_oneshot"グループに登録されます。 |
-|`:Vitimer`                 | Vialarmが使用しているタイマーに関する情報を表示します。                                   |
-|`:Vitimer start`           | Vialarmを起動します。                                                                     |
-|`:Vitimer stop`            | Vialarmを停止します。                                                                     |
+|`:Vialarm start`           | Vialarmを起動します。                                                                     |
+|`:Vialarm stop`            | Vialarmを停止します。                                                                     |
+|`:Vialarm timer`           | Vialarmが使用しているタイマーに関する情報を表示します。                                   |
 
 #### Vialarmのオートコマンドについて
 
@@ -38,7 +38,7 @@ Most Japanese is not well in English... I also am. :(
 
 ### How this work?
 
-1. Type `:Vitimer start` ( or write to your vimrc ) to start Vialarm.
+1. Type `:Vialarm start` ( or write to your vimrc ) to start Vialarm.
 2. Add autocmd like `autocmd foo User Vialarm_08:15 edit ~/Documents/todo.md`
 3. Vialarm let Vim to open todo.md while you take morning-coffee in your office. ;)
 
@@ -48,9 +48,9 @@ Most Japanese is not well in English... I also am. :(
 |:--------------------------|:----------------------------------------------------------|
 |`:Vialarm`                 | Show autocmd about Vialarm.                               |
 |`:Vialarm [HH:MM command]` | Make once-ed autocmd. autocmd grouped 'vialarm\_oneshot'. |
-|`:Vitimer`                 | Show Vialarm timer infomation.                            |
-|`:Vitimer start`           | Start Vialarm.                                            |
-|`:Vitimer stop`            | Stop Vialarm.                                             |
+|`:Vialarm start`           | Start Vialarm.                                            |
+|`:Vialarm stop`            | Stop Vialarm.                                             |
+|`:Vialarm timer`           | Show Vialarm timer infomation.                            |
 
 #### autocmd in Vialarm
 
