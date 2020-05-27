@@ -151,16 +151,17 @@ endfunction
 
 function! vialarm#stackedAlarm() abort
 	let autocmdText = split(execute('autocmd User'), '\n')
+			\ ->filter('v:val =~# ''^\s\+Vialarm''')
+			\ ->map({_, val->split(val, '\s\+')[0]})
+
 	while s:recentTime < localtime()
-		let matchText = '^\s\+\zsVialarm\(_.*\)\?_'.strftime('%H:%M', s:recentTime)
-		let index = match(autocmdText, matchText)
-		if index >= 0
-			let alarmName = matchstr(autocmdText[index], matchText)
+		let timeText = strftime('%H:%M', s:recentTime)
+		let matchText = '^\s\+\zsVialarm\(_.*\)\?_'..timeText
+		for alarmName in filter(deepcopy(autocmdText), 'v:val =~# matchText')
 			execute 'doautocmd User' alarmName
-		endif
+		endfor
 
 		let s:recentTime += 60
-
 	endwhile
 
 	let s:recentTime = localtime()

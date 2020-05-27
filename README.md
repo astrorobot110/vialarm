@@ -60,5 +60,5 @@ Vialarm uses autocommand to run alarm.
 autocmd User {vialarm} {command}
 ```
 
-{vialarm} args must be in format `(vialarm|Vialarm)_HH:MM`.
-Capped pattern ( **V**ialarm ) is 'stacked' alarm. If Vim is background at in time, alarm will run while Vim returns to foreground.
+{vialarm} args should be `(vialarm|Vialarm)_HH:MM`.
+Capped autocommand ( **V**ialarm ) is 'stacked' alarm. If Vim is background at in time, alarm will run while Vim returns to foreground.
