@@ -37,12 +37,15 @@ endfunction
 
 function! s:getAlarm(timer) abort
 	let autocmdText = split(execute('autocmd User'), '\n')
-	let matchText = '^\s\+\zs[Vv]ialarm\(_.*\)\?_'.strftime('%H:%M', localtime())
-	let index = match(autocmdText, matchText)
-	if index >= 0
-		let alarmName = matchstr(autocmdText[index], matchText)
+			\ ->filter('v:val =~# ''\c^\s\+vialarm''')
+			\ ->map({_, val->split(val, '\s\+')[0]})
+
+	let timeText = strftime('%H:%M', localtime())
+	let matchText = '\c^vialarm[_!]\(.*_\)\?'..timeText
+
+	for alarmName in filter(deepcopy(autocmdText), 'v:val =~# matchText')
 		execute 'doautocmd User' alarmName
-	endif
+	endfor
 
 	let s:recentTime = localtime()
 
@@ -90,7 +93,7 @@ function! s:showAlarms() abort
 		if match(autocmdText[currentLine], '^\S') >= 0
 			let currentGroup = autocmdText[currentLine]
 			let currentLine += 1
-		elseif match(autocmdText[currentLine], '^\s\+[Vv]ialarm_') >= 0
+		elseif match(autocmdText[currentLine], '\c^\s\+vialarm') >= 0
 			if currentGroup !=# ''
 				echohl Title
 				echo currentGroup
@@ -156,7 +159,7 @@ function! vialarm#stackedAlarm() abort
 
 	while s:recentTime < localtime()
 		let timeText = strftime('%H:%M', s:recentTime)
-		let matchText = '^\s\+\zsVialarm\(_.*\)\?_'..timeText
+		let matchText = '\c^vialarm[_!]\(.*_\)\?'..timeText
 		for alarmName in filter(deepcopy(autocmdText), 'v:val =~# matchText')
 			execute 'doautocmd User' alarmName
 		endfor
