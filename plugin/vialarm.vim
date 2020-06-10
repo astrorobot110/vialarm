@@ -1,6 +1,7 @@
 scriptencoding utf-8
 
 let s:cpo = &cpoptions
+set cpo&vim
 
 command! -nargs=* -complete=command Vialarm call vialarm#main(<q-args>)
 
